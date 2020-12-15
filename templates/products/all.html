@@ -1,0 +1,62 @@
+{%extends 'base.html'%}
+
+{%load static %}
+
+{%block head_title%}Products ||{%endblock%}
+
+{%block styles%}
+.jumbotron{
+  /*color:red;*/
+}
+{%endblock%}
+
+
+
+
+{%block content%}
+<div class='container'>
+  <div class='row'>
+
+    {% for product in products %}
+    <div class='col-sm-4'>
+
+      <div class="card" style="width: 18rem;">
+        {% if product.productimage_set.all %}
+
+        {% for item in product.productimage_set.all %}
+
+        {% if item.featured %}
+        <div style="width:150px;margin:0 auto;">
+        <div class="background_img_thumb" style="height:150px;background-image:  url('{{MEDIA_ROOT}}{{item.image.url}}');"></div>
+
+        </div>
+        <!-- <img src="{{MEDIA_ROOT}}{{item.image.url}}" class="card-img-top" alt="..."> -->
+        {% endif %}
+        {%endfor%}
+
+        {% else %}
+  <div class="background_img_thumb" style="height:150px;background-image:   background-image:url("{% static "img/placeholder.jpg" %}");"></div>
+        <!-- <img class="card-img-top" src="{% static "img/placeholder.jpg" %}"/> -->
+
+        {%endif%}
+
+        <div class="card-body">
+          <a href="{% url 'single_product' product.slug %}"><h5 class="card-title">{{product.title}}</h5></a>
+
+          <p class="card-text">{{product.description|truncatewords:15}}</p>
+          <a href="{% url 'single_product' product.slug %}" class="btn btn-primary">view</a>
+        </div>
+      </div>
+
+
+
+
+    {{product.price}}
+    </div>
+    {% cycle "" "" "</div><br/><hr/><div class='row'>" %}
+
+    {%endfor%}
+
+  </div>
+</div>
+{%endblock%}

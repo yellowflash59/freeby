@@ -1,0 +1,96 @@
+{%extends 'base.html'%}
+{%load static %}
+
+{%block head_title%}Welcom to {%endblock%}
+
+{%block styles%}
+.jumbotron{
+  /*color:red;*/
+}
+{%endblock%}
+
+{%block jquery%}
+//alert("welcome!");
+{%endblock%}
+
+{% block jumbotron %}
+{%if sliders%}
+<div class="container" style='margin-bottom:15px;margin-top:-24px'>
+  <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+<ol class="carousel-indicators">
+  {%for slider in slider%}
+<li data-target="#carouselExampleIndicators" data-slide-to="{{forloop.counter}}" {%if forloop.first %} class="active" {%endif%}></li>
+{%endfor%}
+</ol>
+<div class='carousel-inner' role='listbox'>
+{%for slider in sliders%}
+<div class="carousel-item {%if forloop.first %}active{%endif%}"">
+  {%if slider.url_link%}<a href="{{slider.url_link}}">{%endif%}
+  <img class="d-block w-100" src="{{slider.get_image_url}}" alt="">
+  {%if slider.url_link%}</a>{%endif%}
+</div>
+{%endfor%}
+</div>
+
+<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+<span class="sr-only">Previous</span>
+</a>
+<a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+<span class="carousel-control-next-icon" aria-hidden="true"></span>
+<span class="sr-only">Next</span>
+</a>
+</div>
+</div>
+{%endif%}
+{%endblock%}
+
+{%block content%}
+<div class='container'>
+  <div class='row'>
+
+    {% for product in products %}
+    <div class='col-sm-4'>
+
+      <div class="card" style="width: 18rem;">
+        {% if product.productimage_set.all %}
+
+        {% for item in product.productimage_set.all %}
+
+        {% if item.featured %}
+        <div style="
+        width:200px;
+        height:200px;margin:0 auto">
+        <div class="background_img_thumb" style="background-image:  url('{{MEDIA_ROOT}}{{item.image.url}}');"></div>
+
+          </div>
+        <!-- <img src="{{MEDIA_ROOT}}{{item.image.url}}" class="card-img-top" alt="..."> -->
+        {% endif %}
+        {%endfor%}
+
+        {% else %}
+
+        <img class="card-img-top" src="{% static "img/placeholder.jpg" %}"/>
+
+        {%endif%}
+
+        <div class="card-body">
+          <a href="{% url 'single_product' product.slug %}"><h5 class="card-title">{{product.title}}</h5></a>
+
+          <p class="card-text">{{product.description|truncatewords:15}}</p>
+          <a href="{% url 'single_product' product.slug %}" class="btn btn-primary">view</a>
+        </div>
+      </div>
+
+
+
+
+    {{product.price}}
+    </div>
+    {% cycle "" "" "</div><br/><hr/><div class='row'>" %}
+
+    {%endfor%}
+
+  </div>
+</div>
+{%endblock%}

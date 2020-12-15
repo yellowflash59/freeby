@@ -1,0 +1,35 @@
+<nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4 ">
+<a class="navbar-brand" href="{% url 'home' %}">Freeby</a>
+<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+<span class="navbar-toggler-icon"></span>
+</button>
+<div class="collapse navbar-collapse" id="navbarCollapse">
+<ul class="navbar-nav mr-auto">
+  <li class="nav-item active">
+    <a class="nav-link" href="#">Welcome <span class="sr-only">(current)</span></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="{%  url 'cart' %}">Cart<span class="badge">{%if not request.session.items_total%} 0 {%else%} {{request.session.items_total}} {%endif%}</span></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="{%  url 'products' %}">Products</a>
+  </li>
+  {% if user.is_authenticated %}
+  <li class="nav-item">
+    <a class="nav-link" href="#">Account</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="{% url 'auth_logout' %}">logout</a>
+  </li>
+  {%else%}
+  <li class="nav-item"> <a class="nav-link" href="{%url 'auth_login'%}">Login</a></li>
+  {%endif%}
+
+</ul>
+
+<form class="form-inline mt-2 mt-md-0" action='/s/'>
+  <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" name="q" >
+  <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+</form>
+</div>
+</nav>

@@ -1,0 +1,7 @@
+hello,
+please activate your account here :
+
+{{activation_url}}
+
+ThankYou
+-freeby
